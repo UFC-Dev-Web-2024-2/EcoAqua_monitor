@@ -22,7 +22,7 @@ Este projeto está desenvolvido como parte da disciplina **Programação de Inte
 ## 🛠️ Ferramentas Utilizadas
 - **React.js** ⚛️
 - **JavaScript**
-- **Material Mui** 
+- **Material UI** 
 - **Vite / Create React App** 
 - **Git & GitHub** 
 - **Figma** 
