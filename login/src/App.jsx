@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, Container, Paper } from "@mui/material";
+import { Box, Typography, Container, Paper, TextField, Button } from "@mui/material";
 
 export default function App() {
   return (
@@ -26,6 +26,24 @@ export default function App() {
           <Typography variant="h5" sx={{ fontWeight: "bold", color: "#29405B" }}>
             Bem-vindo de volta!
           </Typography>
+
+          <Box sx={{ width: "100%", mt: 2 }}>
+            <TextField fullWidth label="Seu e-mail" variant="outlined" margin="normal" />
+            <TextField fullWidth label="Sua senha" variant="outlined" margin="normal" type="password" />
+
+            <Button
+              fullWidth
+              variant="contained"
+              sx={{
+                mt: 2,
+                backgroundColor: "#29405B",
+                "&:hover": { backgroundColor: "#516F91" },
+                padding: "10px",
+              }}
+            >
+              ENTRAR
+            </Button>
+          </Box>
         </Paper>
       </Container>
     </Box>
