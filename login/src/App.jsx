@@ -1,5 +1,15 @@
 import React from "react";
-import { Box, Typography, Container, Paper, TextField, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Container,
+  Paper,
+  TextField,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Link,
+} from "@mui/material";
 
 export default function App() {
   return (
@@ -31,6 +41,8 @@ export default function App() {
             <TextField fullWidth label="Seu e-mail" variant="outlined" margin="normal" />
             <TextField fullWidth label="Sua senha" variant="outlined" margin="normal" type="password" />
 
+            <FormControlLabel control={<Checkbox color="primary" />} label="Manter-me conectado" />
+
             <Button
               fullWidth
               variant="contained"
@@ -43,6 +55,12 @@ export default function App() {
             >
               ENTRAR
             </Button>
+
+            <Box sx={{ textAlign: "center", mt: 2 }}>
+              <Link href="#" variant="body2">
+                Esqueceu a senha?
+              </Link>
+            </Box>
           </Box>
         </Paper>
       </Container>
