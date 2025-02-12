@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Container, Paper } from "@mui/material";
 
 export default function App() {
   return (
@@ -12,9 +12,22 @@ export default function App() {
         justifyContent: "center",
       }}
     >
-      <Typography variant="h5" sx={{ fontWeight: "bold", color: "#29405B" }}>
-        Bem-vindo de volta!
-      </Typography>
+      <Container component="main" maxWidth="xs">
+        <Paper
+          elevation={3}
+          sx={{
+            padding: 4,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            borderRadius: 2,
+          }}
+        >
+          <Typography variant="h5" sx={{ fontWeight: "bold", color: "#29405B" }}>
+            Bem-vindo de volta!
+          </Typography>
+        </Paper>
+      </Container>
     </Box>
   );
 }
