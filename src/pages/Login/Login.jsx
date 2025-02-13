@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Container,
   Box,
@@ -12,21 +11,25 @@ import {
   AppBar,
   Toolbar,
 } from "@mui/material";
+import "../Login/Login.css";
 
-export default function App() {
+export default function Login() {
   return (
     <Box
       sx={{
         backgroundColor: "#e5eaed",
-        minHeight: "100vh", 
+        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between", 
+        justifyContent: "space-between",
         alignItems: "center",
       }}
     >
       {/* Cabeçalho */}
-      <AppBar position="fixed" sx={{ backgroundColor: "#f8f9fc", boxShadow: "none" }}>
+      <AppBar
+        position="fixed"
+        sx={{ backgroundColor: "#f8f9fc", boxShadow: "none" }}
+      >
         <Toolbar>
           <Typography
             variant="h6"
@@ -46,7 +49,11 @@ export default function App() {
           justifyContent: "center",
         }}
       >
-        <Container component="main" maxWidth="xs" sx={{ backgroundColor: "#e5eaed" }}>
+        <Container
+          component="main"
+          maxWidth="xs"
+          sx={{ backgroundColor: "#e5eaed" }}
+        >
           <Paper
             elevation={3}
             sx={{
@@ -58,7 +65,10 @@ export default function App() {
               width: "100%",
             }}
           >
-            <Typography variant="h5" sx={{ fontWeight: "bold", color: "#29405B", mb: 2 }}>
+            <Typography
+              variant="h5"
+              sx={{ fontWeight: "bold", color: "#29405B", mb: 2 }}
+            >
               Bem-vindo de volta!
             </Typography>
 
