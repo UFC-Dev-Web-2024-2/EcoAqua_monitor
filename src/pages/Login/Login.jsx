@@ -6,12 +6,12 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
-  Link,
   Paper,
   AppBar,
   Toolbar,
 } from "@mui/material";
 import "../Login/Login.css";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   return (
@@ -116,7 +116,7 @@ export default function Login() {
                   mt: 2,
                 }}
               >
-                <Link href="#" variant="body2">
+                <Link href="#" class={"link"} variant="body2">
                   Esqueceu a senha?
                 </Link>
 
@@ -136,7 +136,7 @@ export default function Login() {
               <Typography variant="body2" sx={{ color: "#757575" }}>
                 <br></br>
                 Ainda não tem conta?{" "}
-                <Link href="#" variant="body2" sx={{ fontWeight: "bold" }}>
+                <Link to={"/register"} class={"link"}>
                   Cadastre-se
                 </Link>
               </Typography>
