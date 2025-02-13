@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import "../../styles/global.css";
-import "../Register/Register.css";
 
 export default function Register() {
   return (
