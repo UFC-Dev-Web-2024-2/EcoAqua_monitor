@@ -4,16 +4,15 @@ import {
   Typography,
   TextField,
   Button,
-  Checkbox,
-  FormControlLabel,
   Paper,
   AppBar,
   Toolbar,
 } from "@mui/material";
-import "../Login/Login.css";
 import { Link } from "react-router-dom";
+import "../../styles/global.css";
+import "../Register/Register.css";
 
-export default function Login() {
+export default function Register() {
   return (
     <Box
       sx={{
@@ -47,6 +46,7 @@ export default function Login() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          marginTop: "50px",
         }}
       >
         <Container
@@ -69,30 +69,69 @@ export default function Login() {
               variant="h5"
               sx={{ fontWeight: "bold", color: "#29405B", mb: 2 }}
             >
-              Bem-vindo de volta!
+              Cadastre-se!
             </Typography>
 
             <Box sx={{ width: "100%" }}>
               <TextField
                 fullWidth
-                label="Seu e-mail"
+                label="Nome"
                 variant="outlined"
                 margin="normal"
+                placeholder="Joao da Silva"
+              />
+              <TextField
+                fullWidth
+                label="E-mail"
+                variant="outlined"
+                margin="normal"
+                type="email"
                 placeholder="exemplo@gmail.com"
               />
               <TextField
                 fullWidth
-                label="Sua senha"
+                label="Senha"
                 variant="outlined"
                 margin="normal"
                 type="password"
                 placeholder="12345"
               />
-              <FormControlLabel
+              <TextField
+                fullWidth
+                label="Confirme a Senha"
+                variant="outlined"
+                margin="normal"
+                type="password"
+                placeholder="12345"
+              />
+              <TextField
+                fullWidth
+                label="Código de Identificação do módulo"
+                variant="outlined"
+                margin="normal"
+                placeholder="12345"
+              />
+              <TextField
+                fullWidth
+                label="SSID da rede Wi-Fi"
+                variant="outlined"
+                margin="normal"
+                placeholder="TP-LINK-3975"
+              />
+              <TextField
+                fullWidth
+                label="Senha da rede"
+                variant="outlined"
+                margin="normal"
+                type="password"
+                placeholder="12345"
+              />
+
+              {/* <FormControlLabel
                 control={<Checkbox color="primary" />}
                 label="Manter-me conectado"
                 sx={{ mt: 1 }}
-              />
+              /> */}
 
               <Button
                 fullWidth
@@ -104,40 +143,14 @@ export default function Login() {
                   padding: "10px",
                 }}
               >
-                ENTRAR
+                Cadastrar
               </Button>
-
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "100%",
-                  mt: 2,
-                }}
-              >
-                <Link href="#" class={"link"} variant="body2">
-                  Esqueceu a senha?
-                </Link>
-
-                <Button
-                  variant="outlined"
-                  sx={{
-                    color: "#757575",
-                    borderColor: "#c1c1c1",
-                    textTransform: "none",
-                    padding: "6px",
-                  }}
-                >
-                  Entrar com Google
-                </Button>
-              </Box>
 
               <Typography variant="body2" sx={{ color: "#757575" }}>
                 <br></br>
-                Ainda não tem conta?{" "}
-                <Link to={"/register"} class={"link"}>
-                  Cadastre-se
+                Já tem conta?{" "}
+                <Link to={"/login"} class={"link"}>
+                  Entrar
                 </Link>
               </Typography>
             </Box>
