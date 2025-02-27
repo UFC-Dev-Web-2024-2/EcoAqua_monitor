@@ -2,7 +2,7 @@ import {Box, Card, CardContent, Typography, Switch, IconButton, Avatar,Divider,}
 import {WaterDrop, Visibility, BatteryFull, Wifi, Sensors, Settings, Dashboard, Menu, Opacity, ArrowForwardIos, ExpandMore,} from "@mui/icons-material";
 import "../Home/Home.css";
 import { useState } from "react";
-import SensorCard from "../../components/dados";
+import Dados from "../../components/dados";
 import PhHistory from "../../components/historyph";
 import TurbHistory from "../../components/historyturb";
 
@@ -138,7 +138,15 @@ export default function Home() {
             ))}
           </Box>*/}
           <Box sx={{ flex: 1, display: "flex", justifyContent: "center" }}>
-            <TurbHistory historyData={turbHistoryData} />
+          {activeTab === "Dashboard" && (
+              <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", marginBottom: "0px" }}>
+                {sensors.map((sensor, index) => (
+      <         Dados key={index} {...sensor} />
+                ))}
+              </Box>
+            )}
+            {activeTab === "pH" && <PhHistory historyData={phHistoryData} />}
+            {activeTab === "Turbidez" && <TurbHistory historyData={turbHistoryData} />}
           </Box>
 
 

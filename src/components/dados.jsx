@@ -1,11 +1,11 @@
 import { Card, Box, Typography, IconButton } from "@mui/material";
 import { ArrowForwardIos } from "@mui/icons-material";
 
-export default function dados({ title, value, icon, time }) {
+export default function Dados({ title, value, icon, time }) {
   return (
     <Card
       sx={{
-        p: 3,
+        p: 2,
         borderRadius: "16px",
         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
         bgcolor: "white",
@@ -13,7 +13,8 @@ export default function dados({ title, value, icon, time }) {
         flexDirection: "column",
         gap: 1,
         width: "500px",
-        height: "180px",
+        minHeight: "auto", // 🔹 Evita altura fixa desnecessária
+        height: "180px", // 🔹 Ajusta dinamicamente à necessidade do conteúdo
       }}
     >
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
