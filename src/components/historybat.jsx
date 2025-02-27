@@ -32,7 +32,7 @@ export default function BatHistory({ historyData }) {
             <TableRow sx={{ backgroundColor: "#E3F2FD" }}>
               <TableCell sx={{ fontWeight: "bold" }}>Data</TableCell>
               <TableCell sx={{ fontWeight: "bold" }}>Hora</TableCell>
-              <TableCell sx={{ fontWeight: "bold" }}>Bateria</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Bateria em % </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -40,7 +40,7 @@ export default function BatHistory({ historyData }) {
               <TableRow key={index}>
                 <TableCell>{new Date(entry.timestamp).toLocaleDateString()}</TableCell>
                 <TableCell>{new Date(entry.timestamp).toLocaleTimeString()}</TableCell>
-                <TableCell>{entry.batValue.toFixed(2)}</TableCell>
+                <TableCell>{entry.batValue.toFixed(0)}</TableCell>
               </TableRow>
             ))}
           </TableBody>

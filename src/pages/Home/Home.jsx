@@ -7,6 +7,7 @@ import PhHistory from "../../components/historyph";
 import TurbHistory from "../../components/historyturb";
 import TdsHistory from "../../components/historytds";
 import BatHistory from "../../components/historybat";
+import AjuHistory from "../../components/historyaju";
 import StatusCard from "../../components/wifi";
 
 export default function Home() {
@@ -41,11 +42,15 @@ export default function Home() {
     { timestamp: "2024-02-26T16:05:00", tdsValue: 212 },
   ];
   const batHistoryData = [
-    { timestamp: "2024-02-26T08:30:00", batValue: 100 },
+    { timestamp: "2024-02-26T08:30:00", batValue: 100},
     { timestamp: "2024-02-26T10:15:00", batValue: 90 },
     { timestamp: "2024-02-26T12:45:00", batValue: 80 },
     { timestamp: "2024-02-26T14:20:00", batValue: 69 },
     { timestamp: "2024-02-26T16:05:00", batValue: 40 },
+  ];
+  const ajuHistoryData = [
+    { timestamp: "2024-02-26T08:30:00", ajuValue: 100},
+    
   ];
 
   return (
@@ -161,6 +166,7 @@ export default function Home() {
             {activeTab === "Turbidez" && <TurbHistory historyData={turbHistoryData} />}
             {activeTab === "TDS" && <TdsHistory historyData={tdsHistoryData} />}
             {activeTab === "Bateria" && <BatHistory historyData={batHistoryData} />}
+            {activeTab === "Ajustes" && <AjuHistory historyData={ajuHistoryData} />}
           </Box>
 
 
