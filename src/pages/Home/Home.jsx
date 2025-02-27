@@ -6,6 +6,7 @@ import Dados from "../../components/dados";
 import PhHistory from "../../components/historyph";
 import TurbHistory from "../../components/historyturb";
 import TdsHistory from "../../components/historytds";
+import BatHistory from "../../components/historybat";
 import StatusCard from "../../components/wifi";
 
 export default function Home() {
@@ -38,6 +39,13 @@ export default function Home() {
     { timestamp: "2024-02-26T12:45:00", tdsValue: 311 },
     { timestamp: "2024-02-26T14:20:00", tdsValue: 190 },
     { timestamp: "2024-02-26T16:05:00", tdsValue: 212 },
+  ];
+  const batHistoryData = [
+    { timestamp: "2024-02-26T08:30:00", batValue: 100 },
+    { timestamp: "2024-02-26T10:15:00", batValue: 90 },
+    { timestamp: "2024-02-26T12:45:00", batValue: 80 },
+    { timestamp: "2024-02-26T14:20:00", batValue: 69 },
+    { timestamp: "2024-02-26T16:05:00", batValue: 40 },
   ];
 
   return (
@@ -141,11 +149,6 @@ export default function Home() {
           </Box>
 
           {/* dados */}
-          {/*<Box sx={{ flex: 1, display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", }}>
-            {sensors.map((sensor, index) => (
-              <SensorCard key={index} {...sensor} />
-            ))}
-          </Box>*/}
           <Box sx={{ flex: 1, display: "flex", justifyContent: "center" }}>
             {activeTab === "Dashboard" && (
               <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", }}>
@@ -157,6 +160,7 @@ export default function Home() {
             {activeTab === "pH" && <PhHistory historyData={phHistoryData} />}
             {activeTab === "Turbidez" && <TurbHistory historyData={turbHistoryData} />}
             {activeTab === "TDS" && <TdsHistory historyData={tdsHistoryData} />}
+            {activeTab === "Bateria" && <BatHistory historyData={batHistoryData} />}
           </Box>
 
 
