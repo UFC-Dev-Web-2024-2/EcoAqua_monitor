@@ -4,6 +4,7 @@ import "../Home/Home.css";
 import { useState } from "react";
 import SensorCard from "../../components/dados";
 import PhHistory from "../../components/historyph";
+import TurbHistory from "../../components/historyturb";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("Dashboard");
@@ -20,6 +21,14 @@ export default function Home() {
     { timestamp: "2024-02-26T12:45:00", phValue: 7.3 },
     { timestamp: "2024-02-26T14:20:00", phValue: 7.0 },
     { timestamp: "2024-02-26T16:05:00", phValue: 6.8 },
+  ];
+
+  const turbHistoryData = [
+    { timestamp: "2024-02-26T08:30:00", turbValue: 7.1 },
+    { timestamp: "2024-02-26T10:15:00", turbValue: 6.9 },
+    { timestamp: "2024-02-26T12:45:00", turbValue: 7.3 },
+    { timestamp: "2024-02-26T14:20:00", turbValue: 7.0 },
+    { timestamp: "2024-02-26T16:05:00", turbValue: 6.8 },
   ];
 
   return (
@@ -129,7 +138,7 @@ export default function Home() {
             ))}
           </Box>*/}
           <Box sx={{ flex: 1, display: "flex", justifyContent: "center" }}>
-            <PhHistory historyData={phHistoryData} />
+            <TurbHistory historyData={turbHistoryData} />
           </Box>
 
 
