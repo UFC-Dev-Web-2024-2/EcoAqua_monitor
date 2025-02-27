@@ -1,31 +1,18 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Switch,
-  IconButton,
-  Avatar,
-  Divider,
-} from "@mui/material";
-import {
-  WaterDrop,
-  Visibility,
-  BatteryFull,
-  Wifi,
-  Sensors,
-  Settings,
-  Dashboard,
-  Menu,
-  Opacity,
-  ArrowForwardIos,
-  ExpandMore,
-} from "@mui/icons-material";
+import {Box, Card, CardContent, Typography, Switch, IconButton, Avatar,Divider,} from "@mui/material";
+import {WaterDrop, Visibility, BatteryFull, Wifi, Sensors, Settings, Dashboard, Menu, Opacity, ArrowForwardIos, ExpandMore,} from "@mui/icons-material";
 import "../Home/Home.css";
 import { useState } from "react";
+import SensorCard from "../../components/dados";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("Dashboard");
+  const sensors = [
+    { title: "PH", value: "7.1 pH", icon: <WaterDrop sx={{ fontSize: 40, color: "#007BFF" }} />, time: "Há 30 minutos" },
+    { title: "Turbidez", value: "0.5 NTU", icon: <Visibility sx={{ fontSize: 40, color: "#000" }} />, time: "Há 30 minutos" },
+    { title: "TDS", value: "200 mg/L", icon: <Sensors sx={{ fontSize: 40, color: "#007BFF" }} />, time: "Há 30 minutos" },
+    { title: "Bateria", value: "67%", icon: <BatteryFull sx={{ fontSize: 40, color: "#28a745" }} />, time: "Há 30 minutos" },
+  ];
+
   return (
     <>
       <Box
@@ -125,94 +112,12 @@ export default function Home() {
               </Box>
             ))}
           </Box>
-          
+
           {/* dados */}
-          <Box
-            sx={{
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "20px",
-            }}
-          >
-            {/* 4 cards  */}
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: "repeat(2, 1fr)",
-                gap: "50px",
-              }}
-            >
-              {[
-                {
-                  title: "PH",
-                  value: "7.1 pH",
-                  icon: <WaterDrop sx={{ fontSize: 40, color: "#007BFF" }} />,
-                  time: "Há 30 minutos",
-                },
-                {
-                  title: "Turbidez",
-                  value: "0.5 ntu",
-                  icon: <Visibility sx={{ fontSize: 40, color: "#000" }} />,
-                  time: "Há 30 minutos",
-                },
-                {
-                  title: "TDS",
-                  value: "200 mg/L",
-                  icon: <Sensors sx={{ fontSize: 40, color: "#007BFF" }} />,
-                  time: "Há 30 minutos",
-                },
-                {
-                  title: "Bateria",
-                  value: "67%",
-                  icon: <BatteryFull sx={{ fontSize: 40, color: "#28a745" }} />,
-                  time: "Há 30 minutos",
-                },
-              ].map((item, index) => (
-                <Card
-                  key={index}
-                  sx={{
-                    p: 3,
-                    borderRadius: "16px",
-                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                    bgcolor: "white",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 1,
-                    width: "500px",
-                    height: "180px",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                      {item.title}
-                    </Typography>
-                    <IconButton>{item.icon}</IconButton>
-                  </Box>
-                  <Typography
-                    variant="h4"
-                    sx={{ fontWeight: "bold", color: "#2c3e50" }}
-                  >
-                    {item.value}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {item.time}
-                  </Typography>
-                  <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                    <IconButton>
-                      <ArrowForwardIos sx={{ fontSize: 18, color: "#bbb" }} />
-                    </IconButton>
-                  </Box>
-                </Card>
-              ))}
-            </Box>
+          <Box sx={{ flex: 1, display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", }}>
+            {sensors.map((sensor, index) => (
+              <SensorCard key={index} {...sensor} />
+            ))}
           </Box>
 
           {/* coluna a direita */}
