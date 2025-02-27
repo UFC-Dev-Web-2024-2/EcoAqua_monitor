@@ -64,7 +64,7 @@ export default function Home() {
               variant="body1"
               sx={{ fontWeight: "bold", color: "#2c3e50" }}
             >
-              Hello Arthur
+              Hello!
             </Typography>
             <IconButton>
               <ExpandMore />
@@ -74,6 +74,8 @@ export default function Home() {
         </Box>
 
         <Box sx={{ mt: "100px", display: "flex", flex: 1, p: 3, gap: "20px" }}>
+
+
           {/* coluna a esquerda */}
           <Box
             sx={{
@@ -93,8 +95,6 @@ export default function Home() {
               { icon: <Visibility fontSize="large" />, label: "Turbidez" },
               { icon: <Sensors fontSize="large" />, label: "TDS" },
               { icon: <BatteryFull fontSize="large" />, label: "Bateria" },
-              { icon: <WaterDrop fontSize="large" />, label: "Water" },
-              { icon: <Wifi fontSize="large" />, label: "Wi-Fi" },
               { icon: <Settings fontSize="large" />, label: "Ajustes" },
             ].map((item, index) => (
               <Box
@@ -125,6 +125,7 @@ export default function Home() {
               </Box>
             ))}
           </Box>
+          
           {/* dados */}
           <Box
             sx={{
@@ -214,6 +215,7 @@ export default function Home() {
             </Box>
           </Box>
 
+          {/* coluna a direita */}
           <Box
             sx={{
               display: "flex",
