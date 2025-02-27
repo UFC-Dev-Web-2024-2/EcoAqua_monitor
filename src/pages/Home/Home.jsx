@@ -3,6 +3,7 @@ import {WaterDrop, Visibility, BatteryFull, Wifi, Sensors, Settings, Dashboard, 
 import "../Home/Home.css";
 import { useState } from "react";
 import SensorCard from "../../components/dados";
+import PhHistory from "../../components/historyph";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("Dashboard");
@@ -11,6 +12,14 @@ export default function Home() {
     { title: "Turbidez", value: "0.5 NTU", icon: <Visibility sx={{ fontSize: 40, color: "#000" }} />, time: "Há 30 minutos" },
     { title: "TDS", value: "200 mg/L", icon: <Sensors sx={{ fontSize: 40, color: "#007BFF" }} />, time: "Há 30 minutos" },
     { title: "Bateria", value: "67%", icon: <BatteryFull sx={{ fontSize: 40, color: "#28a745" }} />, time: "Há 30 minutos" },
+  ];
+
+  const phHistoryData = [
+    { timestamp: "2024-02-26T08:30:00", phValue: 7.1 },
+    { timestamp: "2024-02-26T10:15:00", phValue: 6.9 },
+    { timestamp: "2024-02-26T12:45:00", phValue: 7.3 },
+    { timestamp: "2024-02-26T14:20:00", phValue: 7.0 },
+    { timestamp: "2024-02-26T16:05:00", phValue: 6.8 },
   ];
 
   return (
@@ -114,11 +123,16 @@ export default function Home() {
           </Box>
 
           {/* dados */}
-          <Box sx={{ flex: 1, display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", }}>
+          {/*<Box sx={{ flex: 1, display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", }}>
             {sensors.map((sensor, index) => (
               <SensorCard key={index} {...sensor} />
             ))}
+          </Box>*/}
+          <Box sx={{ flex: 1, display: "flex", justifyContent: "center" }}>
+            <PhHistory historyData={phHistoryData} />
           </Box>
+
+
 
           {/* coluna a direita */}
           <Box
