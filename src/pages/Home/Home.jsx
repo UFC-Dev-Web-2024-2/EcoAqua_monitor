@@ -1,10 +1,11 @@
-import {Box, Card, CardContent, Typography, Switch, IconButton, Avatar,Divider,} from "@mui/material";
-import {WaterDrop, Visibility, BatteryFull, Wifi, Sensors, Settings, Dashboard, Menu, Opacity, ArrowForwardIos, ExpandMore,} from "@mui/icons-material";
+import { Box, Card, CardContent, Typography, Switch, IconButton, Avatar, Divider, } from "@mui/material";
+import { WaterDrop, Visibility, BatteryFull, Wifi, Sensors, Settings, Dashboard, Menu, Opacity, ArrowForwardIos, ExpandMore, } from "@mui/icons-material";
 import "../Home/Home.css";
 import { useState } from "react";
 import Dados from "../../components/dados";
 import PhHistory from "../../components/historyph";
 import TurbHistory from "../../components/historyturb";
+import StatusCard from "../../components/wifi";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("Dashboard");
@@ -138,10 +139,10 @@ export default function Home() {
             ))}
           </Box>*/}
           <Box sx={{ flex: 1, display: "flex", justifyContent: "center" }}>
-          {activeTab === "Dashboard" && (
-              <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", marginBottom: "0px" }}>
+            {activeTab === "Dashboard" && (
+              <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", }}>
                 {sensors.map((sensor, index) => (
-      <         Dados key={index} {...sensor} />
+                  <         Dados key={index} {...sensor} />
                 ))}
               </Box>
             )}
@@ -160,135 +161,61 @@ export default function Home() {
               width: 300,
             }}
           >
-            {[
-              {
-                title: "Notificações",
-                content: [
-                  {
-                    text: "pH muito ácido",
-                    time: "há 2 horas",
-                    color: "#9B2C2C",
-                  },
-                  {
-                    text: "Bateria Completa",
-                    time: "há 3 horas",
-                    color: "#276749",
-                  },
-                  {
-                    text: "Backup do dia armazenado",
-                    time: "há 16 horas",
-                    color: "#276749",
-                  },
-                ],
-                icon: <ArrowForwardIos sx={{ fontSize: 18, color: "#bbb" }} />,
-              },
-              {
-                title: "Wi-Fi",
-                content: [
-                  { text: "Rede: Eduroam UFC" },
-                  { text: "Status: conectado" },
-                ],
-                icon: <Wifi />,
-              },
-              {
-                title: "Lora",
-                icon: <Opacity />,
-                content: [{ text: "Status: conectado" }],
-              },
-            ].map((item, index) => (
-              <Card
-                key={index}
-                sx={{
-                  borderRadius: "16px",
-                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                  bgcolor: "white",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  padding: "15px",
-                }}
-              >
-                <CardContent>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography
-                      variant="h6"
-                      sx={{ fontWeight: "bold", color: "#2c3e50" }}
-                    >
-                      {item.icon} {item.title}
-                    </Typography>
-                  </Box>
-                  <Divider sx={{ my: 1 }} />
+            {/* Notificações */}
+            <Card
+              sx={{
+                borderRadius: "16px",
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                bgcolor: "white",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                padding: "15px",
+              }}
+            >
+              <CardContent>
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <Typography variant="h6" sx={{ fontWeight: "bold", color: "#2c3e50" }}>
+                    <ArrowForwardIos sx={{ fontSize: 18, color: "#bbb" }} /> Notificações
+                  </Typography>
+                </Box>
+                <Divider sx={{ my: 1 }} />
 
-                  {item.content.map((textItem, idx) => (
-                    <Typography
-                      key={idx}
-                      variant="body2"
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                        mt: 1,
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          width: 8,
-                          height: 8,
-                          bgcolor: textItem.color || "transparent",
-                          borderRadius: "50%",
-                        }}
-                      />
-                      <Box>
-                        <Typography
-                          sx={{
-                            fontWeight: "bold",
-                            fontSize: "14px",
-                            color: "#2c3e50",
-                          }}
-                        >
-                          {textItem.text}
-                        </Typography>
-                        {textItem.time && (
-                          <Typography
-                            sx={{ fontSize: "12px", color: "#718096" }}
-                          >
-                            {textItem.time}
-                          </Typography>
-                        )}
-                      </Box>
-                    </Typography>
-                  ))}
-                </CardContent>
-
-                {/* lora e wifi */}
-                {item.title !== "Notificações" && (
-                  <Box
-                    sx={{ p: 2, display: "flex", alignItems: "center", gap: 1 }}
+                {[
+                  { text: "pH muito ácido", time: "há 2 horas", color: "#9B2C2C" },
+                  { text: "Bateria Completa", time: "há 3 horas", color: "#276749" },
+                  { text: "Backup do dia armazenado", time: "há 16 horas", color: "#276749" },
+                ].map((item, idx) => (
+                  <Typography
+                    key={idx}
+                    variant="body2"
+                    sx={{ display: "flex", alignItems: "center", gap: "8px", mt: 1 }}
                   >
-                    {item.icon}
-                    <Switch
-                      defaultChecked
+                    <Box
                       sx={{
-                        "& .MuiSwitch-switchBase.Mui-checked": {
-                          color: "#1E3A5F",
-                        },
-                        "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track":
-                          {
-                            bgcolor: "#1E3A5F",
-                          },
+                        width: 8,
+                        height: 8,
+                        bgcolor: item.color || "transparent",
+                        borderRadius: "50%",
                       }}
                     />
-                  </Box>
-                )}
-              </Card>
-            ))}
+                    <Box>
+                      <Typography sx={{ fontWeight: "bold", fontSize: "14px", color: "#2c3e50" }}>
+                        {item.text}
+                      </Typography>
+                      <Typography sx={{ fontSize: "12px", color: "#718096" }}>{item.time}</Typography>
+                    </Box>
+                  </Typography>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Wi-Fi e LoRa */}
+            <StatusCard title="Wi-Fi" icon={<Wifi />} defaultStatus={true} />
+            <StatusCard title="LoRa" icon={<Opacity />} defaultStatus={true} />
           </Box>
+
+
         </Box>
       </Box>
     </>
