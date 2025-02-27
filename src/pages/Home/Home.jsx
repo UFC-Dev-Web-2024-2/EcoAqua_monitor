@@ -48,8 +48,13 @@ export default function Home() {
     { timestamp: "2024-02-26T14:20:00", batValue: 69 },
     { timestamp: "2024-02-26T16:05:00", batValue: 40 },
   ];
-  const ajuHistoryData = [
-    { timestamp: "2024-02-26T08:30:00", ajuValue: 100},
+  const ajuHistoryAerador = [
+    { ajuValue: 120 },
+    
+  ];
+
+  const ajuHistorySensor = [
+    {ajuValue: 60 },
     
   ];
 
@@ -166,7 +171,8 @@ export default function Home() {
             {activeTab === "Turbidez" && <TurbHistory historyData={turbHistoryData} />}
             {activeTab === "TDS" && <TdsHistory historyData={tdsHistoryData} />}
             {activeTab === "Bateria" && <BatHistory historyData={batHistoryData} />}
-            {activeTab === "Ajustes" && <AjuHistory historyData={ajuHistoryData} />}
+            {activeTab === "Ajustes" && <AjuHistory aeradorData={ajuHistoryAerador} sensorData={ajuHistorySensor} />
+}
           </Box>
 
 
