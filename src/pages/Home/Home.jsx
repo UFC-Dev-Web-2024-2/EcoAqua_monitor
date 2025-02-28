@@ -1,7 +1,28 @@
-import { Box, Card, CardContent, Typography, Switch, IconButton, Avatar, Divider, } from "@mui/material";
-import { WaterDrop, Visibility, BatteryFull, Wifi, Sensors, Settings, Dashboard, Menu, Opacity, ArrowForwardIos, ExpandMore, } from "@mui/icons-material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  IconButton,
+  Avatar,
+  Divider,
+} from "@mui/material";
+import {
+  WaterDrop,
+  Visibility,
+  BatteryFull,
+  Wifi,
+  Sensors,
+  Settings,
+  Dashboard,
+  Opacity,
+  ArrowForwardIos,
+  ExpandMore,
+} from "@mui/icons-material";
+import LogoutIcon from "@mui/icons-material/Logout";
 import "../Home/Home.css";
-import { useState } from "react";
+import { differenceInMinutes, differenceInHours } from "date-fns";
+import { useState, useEffect, useMemo } from "react";
 import Dados from "../../components/dados";
 import PhHistory from "../../components/historyph";
 import TurbHistory from "../../components/historyturb";
@@ -9,54 +30,140 @@ import TdsHistory from "../../components/historytds";
 import BatHistory from "../../components/historybat";
 import AjuHistory from "../../components/historyaju";
 import StatusCard from "../../components/wifi";
+import { useNavigate } from "react-router-dom";
+import { getNotification, getSensor } from "../../utils/api";
 
 export default function Home() {
+  const navigate = useNavigate();
+  const username = useState(localStorage.getItem("username"));
+  const [data, setData] = useState();
+  const [notification, setNotification] = useState();
   const [activeTab, setActiveTab] = useState("Dashboard");
-  const sensors = [
-    { title: "PH", value: "7.1 pH", icon: <WaterDrop sx={{ fontSize: 40, color: "#007BFF" }} />, time: "Há 30 minutos" },
-    { title: "Turbidez", value: "0.5 NTU", icon: <Visibility sx={{ fontSize: 40, color: "#000" }} />, time: "Há 30 minutos" },
-    { title: "TDS", value: "200 mg/L", icon: <Sensors sx={{ fontSize: 40, color: "#007BFF" }} />, time: "Há 30 minutos" },
-    { title: "Bateria", value: "67%", icon: <BatteryFull sx={{ fontSize: 40, color: "#28a745" }} />, time: "Há 30 minutos" },
-  ];
+  async function getData() {
+    const response = await getSensor();
+    const datanotification = await getNotification();
+    setNotification(datanotification);
+    setData(response);
+  }
 
-  const phHistoryData = [
-    { timestamp: "2024-02-26T08:30:00", phValue: 7.1 },
-    { timestamp: "2024-02-26T10:15:00", phValue: 6.9 },
-    { timestamp: "2024-02-26T12:45:00", phValue: 7.3 },
-    { timestamp: "2024-02-26T14:20:00", phValue: 7.0 },
-    { timestamp: "2024-02-26T16:05:00", phValue: 6.8 },
-  ];
+  useEffect(() => {
+    if (data === null) {
+      getData();
+    } else {
+      const interval = setInterval(() => {
+        getData();
+      }, 20 * 1000);
+      return () => clearInterval(interval);
+    }
+  }, [data]);
+  // const notificationData = useMemo(() => {
+  //   if (!notification || notification.length === 0) return [];
+  //   const notificationDateTime = new Date(notification.createdAt);
+  //     const now = new Date();
 
-  const turbHistoryData = [
-    { timestamp: "2024-02-26T08:30:00", turbValue: 307 },
-    { timestamp: "2024-02-26T10:15:00", turbValue: 243 },
-    { timestamp: "2024-02-26T12:45:00", turbValue: 678 },
-    { timestamp: "2024-02-26T14:20:00", turbValue: 150 },
-    { timestamp: "2024-02-26T16:05:00", turbValue: 190 },
-  ];
-  const tdsHistoryData = [
-    { timestamp: "2024-02-26T08:30:00", tdsValue: 200 },
-    { timestamp: "2024-02-26T10:15:00", tdsValue: 250 },
-    { timestamp: "2024-02-26T12:45:00", tdsValue: 311 },
-    { timestamp: "2024-02-26T14:20:00", tdsValue: 190 },
-    { timestamp: "2024-02-26T16:05:00", tdsValue: 212 },
-  ];
-  const batHistoryData = [
-    { timestamp: "2024-02-26T08:30:00", batValue: 100},
-    { timestamp: "2024-02-26T10:15:00", batValue: 90 },
-    { timestamp: "2024-02-26T12:45:00", batValue: 80 },
-    { timestamp: "2024-02-26T14:20:00", batValue: 69 },
-    { timestamp: "2024-02-26T16:05:00", batValue: 40 },
-  ];
-  const ajuHistoryAerador = [
-    { ajuValue: 120 },
-    
-  ];
+  //     const diffMinutes = differenceInMinutes(now, notificationDateTime);
+  //     const diffHours = differenceInHours(now, notificationDateTime);
 
-  const ajuHistorySensor = [
-    {ajuValue: 60 },
-    
-  ];
+  //     let timeAgo;
+  //     if (diffMinutes < 60) {
+  //       timeAgo = `Há ${diffMinutes} minutos`;
+  //     } else {
+  //       timeAgo = `Há ${diffHours} horas`;
+  //     }
+  //   return notification.map((item) => (
+
+  //     return {
+  //     text: item.message,
+  //     time: timeAgo,
+  //   }
+  // ));
+  // }, [notification]);
+  // console.log("notificationData", notificationData);
+  const sensor = useMemo(() => {
+    {
+      if (!data || data.length === 0) return [];
+      console.log("data", data);
+
+      const latestData = data[data.length - 1];
+      console.log("latestData", latestData.id);
+      const sensorDateTime = new Date(latestData.createdAt);
+      const now = new Date();
+
+      const diffMinutes = differenceInMinutes(now, sensorDateTime);
+      const diffHours = differenceInHours(now, sensorDateTime);
+
+      let timeAgo;
+      if (diffMinutes < 60) {
+        timeAgo = `Há ${diffMinutes} minutos`;
+      } else {
+        timeAgo = `Há ${diffHours} horas`;
+      }
+
+      return [
+        {
+          title: "PH",
+          value: `${latestData.pH.toFixed(2)} pH`,
+          icon: <WaterDrop sx={{ fontSize: 40, color: "#007BFF" }} />,
+          time: timeAgo,
+        },
+        {
+          title: "Turbidez",
+          value: `${latestData.Turbidez.toFixed(2)} NTU`,
+          icon: <Visibility sx={{ fontSize: 40, color: "#000" }} />,
+          time: timeAgo,
+        },
+        {
+          title: "TDS",
+          value: `${latestData.TDS.toFixed(2)} mg/L`,
+          icon: <Sensors sx={{ fontSize: 40, color: "#007BFF" }} />,
+          time: timeAgo,
+        },
+        {
+          title: "Bateria",
+          value: `${((latestData.BaterySlave / 4.2) * 100).toFixed(2)}%`, // Convertendo a voltagem para porcentagem
+          icon: <BatteryFull sx={{ fontSize: 40, color: "#28a745" }} />,
+          time: timeAgo,
+        },
+      ];
+    }
+  }, [data]);
+  console.log("sensor", sensor);
+
+  function handleLogout() {
+    localStorage.removeItem("token"); // Remove o token de autenticação
+    navigate("/login"); // Redireciona para login
+  }
+
+  function historyData(type) {
+    if (type === "ph") {
+      return data.map((item) => ({
+        timestamp: item.createdAt,
+        phValue: item.pH,
+      }));
+    }
+    if (type === "turb") {
+      return data.map((item) => ({
+        timestamp: item.createdAt,
+        turbValue: item.Turbidez,
+      }));
+    }
+    if (type === "tds") {
+      return data.map((item) => ({
+        timestamp: item.createdAt,
+        tdsValue: item.TDS,
+      }));
+    }
+    if (type === "bat") {
+      return data.map((item) => ({
+        timestamp: item.createdAt,
+        batValue: item.BaterySlave,
+      }));
+    }
+  }
+
+  const ajuHistoryAerador = [{ ajuValue: 120 }];
+
+  const ajuHistorySensor = [{ ajuValue: 60 }];
 
   return (
     <>
@@ -96,18 +203,16 @@ export default function Home() {
               variant="body1"
               sx={{ fontWeight: "bold", color: "#2c3e50" }}
             >
-              Hello!
+              Hello {username}!
             </Typography>
-            <IconButton>
-              <ExpandMore />
+            <IconButton onClick={handleLogout}>
+              <LogoutIcon />
             </IconButton>
-            <Avatar alt="Arthur" src="https://via.placeholder.com/40" />
+            <Avatar alt={username} src="https://via.placeholder.com/40" />
           </Box>
         </Box>
 
         <Box sx={{ mt: "100px", display: "flex", flex: 1, p: 3, gap: "20px" }}>
-
-
           {/* coluna a esquerda */}
           <Box
             sx={{
@@ -161,21 +266,37 @@ export default function Home() {
           {/* dados */}
           <Box sx={{ flex: 1, display: "flex", justifyContent: "center" }}>
             {activeTab === "Dashboard" && (
-              <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", }}>
-                {sensors.map((sensor, index) => (
-                  <         Dados key={index} {...sensor} />
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(2, 1fr)",
+                  gap: "20px",
+                }}
+              >
+                {sensor.map((sensor, index) => (
+                  <Dados key={index} {...sensor} />
                 ))}
               </Box>
             )}
-            {activeTab === "pH" && <PhHistory historyData={phHistoryData} />}
-            {activeTab === "Turbidez" && <TurbHistory historyData={turbHistoryData} />}
-            {activeTab === "TDS" && <TdsHistory historyData={tdsHistoryData} />}
-            {activeTab === "Bateria" && <BatHistory historyData={batHistoryData} />}
-            {activeTab === "Ajustes" && <AjuHistory aeradorData={ajuHistoryAerador} sensorData={ajuHistorySensor} />
-}
+            {activeTab === "pH" && (
+              <PhHistory historyData={historyData("ph")} />
+            )}
+            {activeTab === "Turbidez" && (
+              <TurbHistory historyData={historyData("turb")} />
+            )}
+            {activeTab === "TDS" && (
+              <TdsHistory historyData={historyData("tds")} />
+            )}
+            {activeTab === "Bateria" && (
+              <BatHistory historyData={historyData("bat")} />
+            )}
+            {activeTab === "Ajustes" && (
+              <AjuHistory
+                aeradorData={ajuHistoryAerador}
+                sensorData={ajuHistorySensor}
+              />
+            )}
           </Box>
-
-
 
           {/* coluna a direita */}
           <Box
@@ -199,22 +320,49 @@ export default function Home() {
               }}
             >
               <CardContent>
-                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <Typography variant="h6" sx={{ fontWeight: "bold", color: "#2c3e50" }}>
-                    <ArrowForwardIos sx={{ fontSize: 18, color: "#bbb" }} /> Notificações
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "bold", color: "#2c3e50" }}
+                  >
+                    <ArrowForwardIos sx={{ fontSize: 18, color: "#bbb" }} />{" "}
+                    Notificações
                   </Typography>
                 </Box>
                 <Divider sx={{ my: 1 }} />
 
                 {[
-                  { text: "pH muito ácido", time: "há 2 horas", color: "#9B2C2C" },
-                  { text: "Bateria Completa", time: "há 3 horas", color: "#276749" },
-                  { text: "Backup do dia armazenado", time: "há 16 horas", color: "#276749" },
+                  {
+                    text: "pH muito ácido",
+                    time: "há 2 horas",
+                    color: "#9B2C2C",
+                  },
+                  {
+                    text: "Bateria Completa",
+                    time: "há 3 horas",
+                    color: "#276749",
+                  },
+                  {
+                    text: "Backup do dia armazenado",
+                    time: "há 16 horas",
+                    color: "#276749",
+                  },
                 ].map((item, idx) => (
                   <Typography
                     key={idx}
                     variant="body2"
-                    sx={{ display: "flex", alignItems: "center", gap: "8px", mt: 1 }}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      mt: 1,
+                    }}
                   >
                     <Box
                       sx={{
@@ -225,10 +373,18 @@ export default function Home() {
                       }}
                     />
                     <Box>
-                      <Typography sx={{ fontWeight: "bold", fontSize: "14px", color: "#2c3e50" }}>
+                      <Typography
+                        sx={{
+                          fontWeight: "bold",
+                          fontSize: "14px",
+                          color: "#2c3e50",
+                        }}
+                      >
                         {item.text}
                       </Typography>
-                      <Typography sx={{ fontSize: "12px", color: "#718096" }}>{item.time}</Typography>
+                      <Typography sx={{ fontSize: "12px", color: "#718096" }}>
+                        {item.time}
+                      </Typography>
                     </Box>
                   </Typography>
                 ))}
@@ -239,8 +395,6 @@ export default function Home() {
             <StatusCard title="Wi-Fi" icon={<Wifi />} defaultStatus={true} />
             <StatusCard title="LoRa" icon={<Opacity />} defaultStatus={true} />
           </Box>
-
-
         </Box>
       </Box>
     </>
