@@ -5,6 +5,9 @@ import { useState } from "react";
 import Dados from "../../components/dados";
 import PhHistory from "../../components/historyph";
 import TurbHistory from "../../components/historyturb";
+import TdsHistory from "../../components/historytds";
+import BatHistory from "../../components/historybat";
+import AjuHistory from "../../components/historyaju";
 import StatusCard from "../../components/wifi";
 
 export default function Home() {
@@ -25,11 +28,34 @@ export default function Home() {
   ];
 
   const turbHistoryData = [
-    { timestamp: "2024-02-26T08:30:00", turbValue: 7.1 },
-    { timestamp: "2024-02-26T10:15:00", turbValue: 6.9 },
-    { timestamp: "2024-02-26T12:45:00", turbValue: 7.3 },
-    { timestamp: "2024-02-26T14:20:00", turbValue: 7.0 },
-    { timestamp: "2024-02-26T16:05:00", turbValue: 6.8 },
+    { timestamp: "2024-02-26T08:30:00", turbValue: 307 },
+    { timestamp: "2024-02-26T10:15:00", turbValue: 243 },
+    { timestamp: "2024-02-26T12:45:00", turbValue: 678 },
+    { timestamp: "2024-02-26T14:20:00", turbValue: 150 },
+    { timestamp: "2024-02-26T16:05:00", turbValue: 190 },
+  ];
+  const tdsHistoryData = [
+    { timestamp: "2024-02-26T08:30:00", tdsValue: 200 },
+    { timestamp: "2024-02-26T10:15:00", tdsValue: 250 },
+    { timestamp: "2024-02-26T12:45:00", tdsValue: 311 },
+    { timestamp: "2024-02-26T14:20:00", tdsValue: 190 },
+    { timestamp: "2024-02-26T16:05:00", tdsValue: 212 },
+  ];
+  const batHistoryData = [
+    { timestamp: "2024-02-26T08:30:00", batValue: 100},
+    { timestamp: "2024-02-26T10:15:00", batValue: 90 },
+    { timestamp: "2024-02-26T12:45:00", batValue: 80 },
+    { timestamp: "2024-02-26T14:20:00", batValue: 69 },
+    { timestamp: "2024-02-26T16:05:00", batValue: 40 },
+  ];
+  const ajuHistoryAerador = [
+    { ajuValue: 120 },
+    
+  ];
+
+  const ajuHistorySensor = [
+    {ajuValue: 60 },
+    
   ];
 
   return (
@@ -133,11 +159,6 @@ export default function Home() {
           </Box>
 
           {/* dados */}
-          {/*<Box sx={{ flex: 1, display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", }}>
-            {sensors.map((sensor, index) => (
-              <SensorCard key={index} {...sensor} />
-            ))}
-          </Box>*/}
           <Box sx={{ flex: 1, display: "flex", justifyContent: "center" }}>
             {activeTab === "Dashboard" && (
               <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", }}>
@@ -148,6 +169,10 @@ export default function Home() {
             )}
             {activeTab === "pH" && <PhHistory historyData={phHistoryData} />}
             {activeTab === "Turbidez" && <TurbHistory historyData={turbHistoryData} />}
+            {activeTab === "TDS" && <TdsHistory historyData={tdsHistoryData} />}
+            {activeTab === "Bateria" && <BatHistory historyData={batHistoryData} />}
+            {activeTab === "Ajustes" && <AjuHistory aeradorData={ajuHistoryAerador} sensorData={ajuHistorySensor} />
+}
           </Box>
 
 

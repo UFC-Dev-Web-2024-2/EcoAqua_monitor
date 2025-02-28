@@ -13,8 +13,7 @@ export default function Dados({ title, value, icon, time }) {
         flexDirection: "column",
         gap: 1,
         width: "500px",
-        minHeight: "auto", // 🔹 Evita altura fixa desnecessária
-        height: "180px", // 🔹 Ajusta dinamicamente à necessidade do conteúdo
+        height: "250px", 
       }}
     >
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
