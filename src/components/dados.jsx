@@ -13,10 +13,16 @@ export default function Dados({ title, value, icon, time }) {
         flexDirection: "column",
         gap: 1,
         width: "500px",
-        height: "250px", 
+        height: "250px",
       }}
     >
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           {title}
         </Typography>

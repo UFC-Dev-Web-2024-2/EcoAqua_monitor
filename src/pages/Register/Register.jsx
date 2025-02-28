@@ -8,10 +8,46 @@ import {
   AppBar,
   Toolbar,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../styles/global.css";
+import { useState } from "react";
+import { register } from "../../utils/api";
 
 export default function Register() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [sensorId, setSensorId] = useState("");
+  function handleRegister(event) {
+    event.preventDefault();
+    if (password !== confirmPassword) {
+      alert("As senhas não coincidem!");
+      return;
+    }
+    if (password.length < 6) {
+      alert("A senha deve ter no mínimo 6 caracteres!");
+      return;
+    }
+    if (sensorId.length < 0) {
+      alert("O ID do sensor deve ser preenchido!");
+      return;
+    }
+    setLoading(true);
+    console.log("Email:", email);
+    console.log("Password:", password);
+    try {
+      register({ email, password, username, sensorId });
+    } catch (error) {
+      console.error("Erro ao efetuar login:", error);
+    }
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/");
+    }, 3000);
+  }
   return (
     <Box
       sx={{
@@ -78,6 +114,7 @@ export default function Register() {
                 variant="outlined"
                 margin="normal"
                 placeholder="Joao da Silva"
+                onChange={(e) => setUsername(e.target.value)}
               />
               <TextField
                 fullWidth
@@ -86,6 +123,7 @@ export default function Register() {
                 margin="normal"
                 type="email"
                 placeholder="exemplo@gmail.com"
+                onChange={(e) => setEmail(e.target.value)}
               />
               <TextField
                 fullWidth
@@ -94,6 +132,7 @@ export default function Register() {
                 margin="normal"
                 type="password"
                 placeholder="12345"
+                onChange={(e) => setPassword(e.target.value)}
               />
               <TextField
                 fullWidth
@@ -102,28 +141,15 @@ export default function Register() {
                 margin="normal"
                 type="password"
                 placeholder="12345"
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
               <TextField
                 fullWidth
-                label="Código de Identificação do módulo"
+                label="Sensor ID"
                 variant="outlined"
                 margin="normal"
                 placeholder="12345"
-              />
-              <TextField
-                fullWidth
-                label="SSID da rede Wi-Fi"
-                variant="outlined"
-                margin="normal"
-                placeholder="TP-LINK-3975"
-              />
-              <TextField
-                fullWidth
-                label="Senha da rede"
-                variant="outlined"
-                margin="normal"
-                type="password"
-                placeholder="12345"
+                onChange={(e) => setSensorId(e.target.value)}
               />
 
               {/* <FormControlLabel
@@ -141,6 +167,8 @@ export default function Register() {
                   "&:hover": { backgroundColor: "#516F91" },
                   padding: "10px",
                 }}
+                onClick={handleRegister}
+                loading={loading}
               >
                 Cadastrar
               </Button>

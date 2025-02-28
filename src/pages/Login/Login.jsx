@@ -11,9 +11,30 @@ import {
   Toolbar,
 } from "@mui/material";
 import "../Login/Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { googleLogin, login } from "../../utils/api";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  function handleLogin(event) {
+    event.preventDefault();
+    setLoading(true);
+    console.log("Email:", email);
+    console.log("Password:", password);
+    try {
+      login({ email, password });
+    } catch (error) {
+      console.error("Erro ao efetuar login:", error);
+    }
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/");
+    }, 2000);
+  }
   return (
     <Box
       sx={{
@@ -79,6 +100,7 @@ export default function Login() {
                 variant="outlined"
                 margin="normal"
                 placeholder="exemplo@gmail.com"
+                onChange={(e) => setEmail(e.target.value)}
               />
               <TextField
                 fullWidth
@@ -87,6 +109,7 @@ export default function Login() {
                 margin="normal"
                 type="password"
                 placeholder="12345"
+                onChange={(e) => setPassword(e.target.value)}
               />
               <FormControlLabel
                 control={<Checkbox color="primary" />}
@@ -103,6 +126,8 @@ export default function Login() {
                   "&:hover": { backgroundColor: "#516F91" },
                   padding: "10px",
                 }}
+                onClick={handleLogin}
+                loading={loading}
               >
                 ENTRAR
               </Button>
@@ -127,6 +152,9 @@ export default function Login() {
                     borderColor: "#c1c1c1",
                     textTransform: "none",
                     padding: "6px",
+                  }}
+                  onClick={() => {
+                    googleLogin();
                   }}
                 >
                   Entrar com Google
