@@ -12,9 +12,8 @@ export default function Dados({ title, value, icon, time }) {
         display: "flex",
         flexDirection: "column",
         gap: 1,
-        width: "500px",  
-        height: "200px", 
-        minHeight: "140px",
+        width: "500px",
+        height: "250px", 
       }}
     >
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
