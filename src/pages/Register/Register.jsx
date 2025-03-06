@@ -5,13 +5,12 @@ import {
   TextField,
   Button,
   Paper,
-  AppBar,
-  Toolbar,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/global.css";
 import { useState } from "react";
 import { register } from "../../utils/api";
+import NavBar from "../../components/NavBar";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -60,19 +59,7 @@ export default function Register() {
       }}
     >
       {/* Cabeçalho */}
-      <AppBar
-        position="fixed"
-        sx={{ backgroundColor: "#f8f9fc", boxShadow: "none" }}
-      >
-        <Toolbar>
-          <Typography
-            variant="h6"
-            sx={{ flexGrow: 1, color: "#29405B", fontWeight: "bold", ml: 2 }}
-          >
-            EcoAqua Monitor
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <NavBar user={null} />
 
       {/* Container Centralizado */}
       <Box
@@ -87,7 +74,7 @@ export default function Register() {
         <Container
           component="main"
           maxWidth="xs"
-          sx={{ backgroundColor: "#e5eaed" }}
+          sx={{ backgroundColor: "#e5eaed", width: "500px" }}
         >
           <Paper
             elevation={3}
@@ -98,16 +85,30 @@ export default function Register() {
               alignItems: "center",
               borderRadius: 2,
               width: "100%",
+              height: "60%",
             }}
           >
             <Typography
               variant="h5"
-              sx={{ fontWeight: "bold", color: "#29405B", mb: 2 }}
+              sx={{
+                fontWeight: "bold",
+                color: "#29405B",
+                mb: 2,
+                display: "flex",
+                alignItems: "center",
+              }}
             >
               Cadastre-se!
             </Typography>
 
-            <Box sx={{ width: "100%" }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
               <TextField
                 fullWidth
                 label="Nome"
@@ -176,7 +177,7 @@ export default function Register() {
               <Typography variant="body2" sx={{ color: "#757575" }}>
                 <br></br>
                 Já tem conta?{" "}
-                <Link to={"/login"} class={"link"}>
+                <Link to={"/login"} style={{ color: "#4f86ca" }}>
                   Entrar
                 </Link>
               </Typography>

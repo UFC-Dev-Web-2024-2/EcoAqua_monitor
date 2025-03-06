@@ -7,13 +7,12 @@ import {
   Checkbox,
   FormControlLabel,
   Paper,
-  AppBar,
-  Toolbar,
 } from "@mui/material";
 import "../Login/Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { googleLogin, login } from "../../utils/api";
+import { login } from "../../utils/api";
+import NavBar from "../../components/NavBar";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -47,19 +46,8 @@ export default function Login() {
       }}
     >
       {/* Cabeçalho */}
-      <AppBar
-        position="fixed"
-        sx={{ backgroundColor: "#f8f9fc", boxShadow: "none" }}
-      >
-        <Toolbar>
-          <Typography
-            variant="h6"
-            sx={{ flexGrow: 1, color: "#29405B", fontWeight: "bold", ml: 2 }}
-          >
-            EcoAqua Monitor
-          </Typography>
-        </Toolbar>
-      </AppBar>
+
+      <NavBar user={null} />
 
       {/* Container Centralizado */}
       <Box
@@ -73,7 +61,7 @@ export default function Login() {
         <Container
           component="main"
           maxWidth="xs"
-          sx={{ backgroundColor: "#e5eaed" }}
+          sx={{ backgroundColor: "#e5eaed", width: "500px" }}
         >
           <Paper
             elevation={3}
@@ -82,18 +70,32 @@ export default function Login() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              justifyItems: "center",
               borderRadius: 2,
               width: "100%",
+              height: "50%",
             }}
           >
             <Typography
               variant="h5"
-              sx={{ fontWeight: "bold", color: "#29405B", mb: 2 }}
+              sx={{
+                fontWeight: "bold",
+                color: "#29405B",
+                mb: 2,
+                display: "flex",
+                alignItems: "center",
+              }}
             >
               Bem-vindo de volta!
             </Typography>
 
-            <Box sx={{ width: "100%" }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
               <TextField
                 fullWidth
                 label="Seu e-mail"
@@ -111,10 +113,20 @@ export default function Login() {
                 placeholder="12345"
                 onChange={(e) => setPassword(e.target.value)}
               />
+
               <FormControlLabel
-                control={<Checkbox color="primary" />}
-                label="Manter-me conectado"
-                sx={{ mt: 1 }}
+                control={
+                  <Checkbox
+                    color="primary"
+                    sx={{ verticalAlign: "middle" }} // Alinha verticalmente o checkbox
+                  />
+                }
+                label={
+                  <span style={{ display: "flex", alignItems: "center" }}>
+                    Manter-me conectado
+                  </span>
+                }
+                sx={{ display: "flex", alignItems: "center", gap: 1 }} // Garante alinhamento
               />
 
               <Button
@@ -141,11 +153,11 @@ export default function Login() {
                   mt: 2,
                 }}
               >
-                <Link href="#" class={"link"} variant="body2">
+                <Link href="#" className={"link"} variant="body2">
                   Esqueceu a senha?
                 </Link>
 
-                <Button
+                {/* <Button
                   variant="outlined"
                   sx={{
                     color: "#757575",
@@ -158,13 +170,21 @@ export default function Login() {
                   }}
                 >
                   Entrar com Google
-                </Button>
+                </Button> */}
               </Box>
 
-              <Typography variant="body2" sx={{ color: "#757575" }}>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "#757575",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                }}
+              >
                 <br></br>
                 Ainda não tem conta?{" "}
-                <Link to={"/register"} class={"link"}>
+                <Link to={"/register"} className={"link"}>
                   Cadastre-se
                 </Link>
               </Typography>
