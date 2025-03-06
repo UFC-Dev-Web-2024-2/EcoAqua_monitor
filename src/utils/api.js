@@ -1,4 +1,5 @@
 import axios from "axios";
+import { differenceInMinutes, differenceInHours } from "date-fns";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -11,8 +12,9 @@ const api = axios.create({
 
 export async function getSensor() {
   const jwt = localStorage.getItem("token");
-  const sensorId = localStorage.getItem("sensorId");
-  console.log("sensorId", sensorId);
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log("sensorIdGet", user.sensor);
+  console.log("jwt", jwt);
   try {
     const response = await api.get("/sensors", {
       headers: {
@@ -21,7 +23,7 @@ export async function getSensor() {
       params: {
         filters: {
           sensorId: {
-            $eq: sensorId, // Substitua 123 pelo ID desejado
+            $eq: user.sensor, // Substitua 123 pelo ID desejado
           },
         },
       },
@@ -35,8 +37,8 @@ export async function getSensor() {
 }
 export async function getNotification() {
   const jwt = localStorage.getItem("token");
-  const sensorId = localStorage.getItem("sensorId");
-  console.log("sensorId", sensorId);
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log("sensorId", user.sensor);
   try {
     const response = await api.get("/notifications", {
       headers: {
@@ -45,9 +47,10 @@ export async function getNotification() {
       params: {
         filters: {
           sensorId: {
-            $eq: sensorId, // Substitua 123 pelo ID desejado
+            $eq: user.sensor, // Substitua 123 pelo ID desejado
           },
         },
+        sort: ["createdAt:desc"],
       },
     });
     console.log("notifications:", response.data.data);
@@ -70,23 +73,22 @@ export async function login({ email, password }) {
 
     console.log(res.data);
     console.log("JWT:", jwt);
-    const user = res.data.user;
 
-    localStorage.setItem("username", user.username);
-    localStorage.setItem("id", user.id);
-    localStorage.setItem("sensorId", user.sensor);
+    localStorage.setItem("user", JSON.stringify(res.data.user));
     //localStorage.setItem("role", res.data.role.name);
     localStorage.setItem("token", jwt);
     console.log("Login efetuado com sucesso!");
 
     console.log("Redirecionando para a página inicial...");
+    getReadingTime();
   } catch (error) {
     console.error("Erro ao fazer login:", error);
     throw error; // Para capturar o erro onde a função for chamada
   }
 }
 
-async function getUser({ jwt }) {
+async function getUser() {
+  const jwt = localStorage.getItem("token");
   const res = await api.get("/users/me", {
     headers: {
       Authorization: `Bearer ${jwt}`,
@@ -97,10 +99,34 @@ async function getUser({ jwt }) {
   });
   return res.data;
 }
+async function getReadingTime() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const res = await api.get("/reading-timers", {
+    params: {
+      filters: {
+        sensorId: {
+          $eq: user.sensor, // Substitua 123 pelo ID desejado
+        },
+      },
+    },
+  });
+  console.log("Res:", res.data);
+  localStorage.setItem(
+    "user",
+    JSON.stringify({
+      ...user,
+      sensorTime: res.data.data[0].sensorTimer,
+      aeratorTime: res.data.data[0].aeratorTimer,
+      idTimer: res.data.data[0].id,
+    })
+  );
+}
 
-async function updateUserSensorId({ jwt, id, sensor }) {
+async function updateUserSensorId({ sensor }) {
+  const jwt = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
   const res = await api.put(
-    `/users/${id}`,
+    `/users/${user.id}`,
     { sensor },
     {
       headers: {
@@ -109,6 +135,34 @@ async function updateUserSensorId({ jwt, id, sensor }) {
     }
   );
   return res.data;
+}
+
+export async function updateAeratorSensorTime(aerator, sensorTimer) {
+  const jwt = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log("aerator", aerator);
+  console.log("sensorTimer", sensorTimer);
+  const data = {
+    data: {
+      aeratorTimer: aerator,
+      sensorTimer: sensorTimer,
+    },
+  };
+  const res = await api.put(`/reading-timers/${user.idTimer}`, {
+    body: data,
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  });
+  console.log("Res:", res.data);
+  localStorage.setItem(
+    "user",
+    JSON.stringify({
+      ...user,
+      sensorTime: res.data.sensorTimer,
+      aeratorTime: res.data.aeratorTimer,
+    })
+  );
 }
 
 export async function register({ email, password, username, sensorId }) {
@@ -126,28 +180,19 @@ export async function register({ email, password, username, sensorId }) {
     throw error; // Para capturar o erro onde a função for chamada
   }
 
-  const { jwt } = res.data;
-  const { id } = res.data.user;
+  const { jwt } = res.data.jwt;
+  const { user } = res.data.user;
 
-  console.log("ID:", id);
+  console.log("ID:", user.id);
   console.log("jwt ID:", jwt);
   setTimeout(() => {
-    res = updateUserSensorId({ jwt, id, sensor: sensorId });
+    res = updateUserSensorId({ jwt, id: user.id, sensor: sensorId });
   }, 1000);
-
-  // res = await updateUserSensorId({ jwt, id, sensor: sensorId });
-  // console.log("Res:", res);
-  // console.log("Res.data:", res.data);
 
   console.log(res.data);
 
-  localStorage.setItem("username", res.data.username);
-  localStorage.setItem("sensorId", res.data.sensor);
-  //localStorage.setItem("role", res.data.role.name);
+  localStorage.setItem("user", JSON.stringify(user));
   localStorage.setItem("token", jwt);
-  console.log("Login efetuado com sucesso!");
-
-  console.log("Redirecionando para a página inicial...");
 }
 
 export async function googleLogin() {
@@ -156,8 +201,15 @@ export async function googleLogin() {
   console.log(res.data);
   console.log("Google");
 }
+export function dateTime(createdAt) {
+  const notificationDateTime = new Date(createdAt);
+  const now = new Date();
+  const diffMinutes = differenceInMinutes(now, notificationDateTime);
+  const diffHours = differenceInHours(now, notificationDateTime);
 
-// export function handleLogout() {
-//   localStorage.removeItem("authToken"); // Remove o token de autenticação
-//   navigate("/login"); // Redireciona para login
-// }
+  if (diffMinutes < 60) {
+    return `Há ${diffMinutes} minutos`;
+  } else {
+    return `Há ${diffHours} horas`;
+  }
+}
