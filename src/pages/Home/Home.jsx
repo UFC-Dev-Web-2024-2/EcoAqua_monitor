@@ -139,6 +139,7 @@ export default function Home() {
           flexDirection: "column",
           height: "100%",
           bgcolor: "#EAF0F6",
+          flex: 1,
         }}
       >
         {/* Cabeçalho */}
