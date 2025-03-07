@@ -52,11 +52,11 @@ export default function AjuHistory() {
               alignItems: "center",
             }}
           >
-            <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
-              Aerador
-            </Typography>
             <Table>
               <TableHead>
+                <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
+                  Aerador
+                </Typography>
                 <TableRow sx={{ backgroundColor: "#E3F2FD" }}>
                   <TableCell
                     sx={{
@@ -73,11 +73,21 @@ export default function AjuHistory() {
                 <TableRow>
                   <TableCell sx={{ textAlign: "center", padding: "16px" }}>
                     <TextField
+                      id="outlined-number"
                       type="number"
+                      label="Aerator"
                       value={aeradorValues}
                       onChange={(e) => setAeradorValues(e.target.value)}
-                      size="small"
-                      sx={{ width: "100%" }} // Faz o campo ocupar toda a largura disponível
+                      style={{
+                        height: "50%",
+                        borderRadius: "8px",
+                        borderColor: "black",
+                      }}
+                      slotProps={{
+                        inputLabel: {
+                          shrink: true,
+                        },
+                      }}
                     />
                   </TableCell>
                 </TableRow>
@@ -100,11 +110,11 @@ export default function AjuHistory() {
               alignItems: "space-between",
             }}
           >
-            <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
-              Sensor
-            </Typography>
             <Table>
               <TableHead>
+                <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
+                  Sensor
+                </Typography>
                 <TableRow sx={{ backgroundColor: "#E3F2FD" }}>
                   <TableCell sx={{ fontWeight: "bold", whiteSpace: "nowrap" }}>
                     Intervalo de leitura (s)
@@ -115,15 +125,21 @@ export default function AjuHistory() {
                 <TableRow>
                   <TableCell>
                     <TextField
-                      style={{
-                        flex: 1,
-                        display: "flex",
-                        alignContent: "center",
-                      }}
+                      id="outlined-number"
                       type="number"
+                      label="Sensor"
                       value={sensorValues}
                       onChange={(e) => setSensorValues(e.target.value)}
-                      size="small"
+                      style={{
+                        height: "50%",
+                        borderRadius: "8px",
+                        borderColor: "black",
+                      }}
+                      slotProps={{
+                        inputLabel: {
+                          shrink: true,
+                        },
+                      }}
                     />
                   </TableCell>
                 </TableRow>
